@@ -57,7 +57,6 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
   fits_read, bkg, imdatab, imhdb
 
   ;; Output file name
-  ;; outfile = 'linegrid_overview.ps'
   if ~keyword_set(outfile) then outfile = 'contgridspec.ps'
 
   if ~keyword_set(speccolors) then begin
@@ -209,7 +208,7 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
      cgcolorbar, divisions=nlevels-1, minor=0, format='(I0)', $
                  range=[min(levels), max(levels)], /vertical, $
                  bottom=256/(nlevels+cbtail-1)*cbtail, $
-                 charsize=1.2 * charscale, textthick=2.0*thickscale, $
+                 charsize=1.2*charscale, textthick=2.0*thickscale, $
                  annotatecolor='black', title=cbname, position=cbpos, $
                  tlocation='right', addcmd=window
   endif
