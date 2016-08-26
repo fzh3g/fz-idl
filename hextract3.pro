@@ -1,7 +1,8 @@
 pro hextract3, oldim, oldhd, newim, newhd, x1, x2, y1, y2, silent=silent, $
                _extra=extra_keywords
 
-  ;; Extract a subimage from an 3D array and update astrometry in FITS header
+  ;; Extract a subimage from an 3D array and update astrometry in
+  ;; FITS header using HEXTRACT
 
   ;; Return to caller
   on_error, 2

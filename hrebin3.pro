@@ -1,6 +1,6 @@
 pro hrebin3, oldim, oldhd, newim, newhd, outsize
 
-  ;; Rebin 3D data cube
+  ;; Rebin 3D data cube using HREBIN
 
   ;; Return to caller
   on_error, 2
