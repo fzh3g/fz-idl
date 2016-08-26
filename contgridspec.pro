@@ -5,9 +5,9 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
                   legloc=legloc, markline=markline, ticklen=ticklen, $
                   specnames=specnames, speccolors=speccolors, $
                   specxytitle=specxytitle, workdir=workdir, pixgap=pixgap, $
+                  thickscale=thickscale, charscale=charscale, cbtail=cbtail, $
                   colorbar=colorbar, legend=legend, nocont=nocont, nops=nops, $
-                  nogrid=nogrid, charscale=charscale, cbtail=cbtail, $
-                  thickscale=thickscale, window=window, noerase=noerase, $
+                  nogrid=nogrid, window=window, noerase=noerase, $
                   get_gridpos=gridpos
 
   ;; Overplot a grid of spectra of data cubes on top of a contour of
@@ -27,11 +27,11 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
      print, '          levbot=levbot, contpos=contpos, cbpos=cbpos,'
      print, '          cbname=cbname, legloc=legloc, markline=markline,'
      print, '          ticklen=ticklen,specnames=specnames,'
-     print, '          specxytitle=specxytitle, speccolors=speccolors,'
-     print, '          workdir=workdir, pixgap=pixgap, colorbar=colorbar,'
-     print, '          legend=legend, nocont=nocont, nogrid=nogrid,'
-     print, '          charscale=charscale, nops=nops, ctail=cbtail,'
-     print, '          thickscale=thickscale, get_gridpos=gridpos]'
+     print, '          speccolors=speccolors, specxytitle=specxytitle,'
+     print, '          workdir=workdir, pixgap=pixgap, thickscale=thickscale,'
+     print, '          charscale=charscale, ctail=cbtail, colorbar=colorbar,'
+     print, '          legend=legend, nocont=nocont, nops=nops, nogrid=nogrid,'
+     print, '          get_gridpos=gridpos]'
      return
   endif
 
@@ -230,8 +230,7 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
            gridspec, imdata, imhd, ra1, ra2, dec1, dec2, vrange=vrange, $
                      color=speccolors[i], yrange=yrange, $
                      thick=1.5*thickscale, /noaxis, position=gridpos, $
-                     gridsize=gridsize, addcmd=window, $
-                     xtitle=specxytitle[0], ytitle=specxytitle[1]
+                     gridsize=gridsize, addcmd=window
         endfor
      endif
 
