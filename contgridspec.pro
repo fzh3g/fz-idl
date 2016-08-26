@@ -108,7 +108,7 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
   endif
 
   ;; Colorbar name
-  if ~keyword_set(cbname) then cbname = 'Contour (K)!X'
+  if ~keyword_set(cbname) then cbname = 'Contour !N(K)'
 
   ;; Scale of charsize
   if ~keyword_set(charscale) then charscale = 1.0
