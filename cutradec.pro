@@ -30,7 +30,7 @@ pro cutradec, oldim, oldhd, newim, newhd, ra1, ra2, dec1, dec2, $
   ndimen = n_elements(dimen)
 
   if (ndimen ne 2) && (ndimen ne 3) then begin
-     print, 'Input image array must be 2D or 3D.'
+     message, 'ERROR - Input image array must be 2D or 3D.', /con
      return
   endif
 
