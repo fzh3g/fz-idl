@@ -31,8 +31,7 @@ pro reversevelo, imdata, imhd, newdata, newhd
   sxaddpar, newhd, 'cdelt3', -cdelt3
 
   message, /inf, 'Reverse the velocity axis of 3D data cube.'
-  get_date, dte, /timetag
-  sxaddhist, 'CUBEREVERSEVELO: ' + dte, newhd
+  sxaddhist, 'CUBEREVERSEVELO: ' + systime() + ' Velocity axis reversed', newhd
 
   if update then imhd = temporary(newhd)
 end

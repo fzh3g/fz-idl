@@ -62,8 +62,9 @@ pro cutvelo, oldim, oldhd, newim, newhd, velo1, velo2
   sxaddpar, newhd, 'CRPIX3', crpix3 - veloslices[0]
   message, /inf, 'Cut velocity from ' + strtrim(velo1, 2) + ' km/s to ' + $
            strtrim(velo2, 2) + ' km/s.'
-  get_date, dte, /timetag
-  sxaddhist, 'CUTVELO: ' + dte, newhd
+  sxaddhist, 'CUTVELO: ' + systime() + ' Velocity clipped from ' + $
+             strtrim(velo1, 2) + ' km/s to ' + strtrim(velo2, 2) + $
+             ' km/s', newhd
 
   if update then begin
      oldim = temporary(newim) & oldhd = temporary(newhd)
