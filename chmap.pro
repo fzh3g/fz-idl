@@ -41,8 +41,8 @@ pro chmap, imdata, imhd, imdatac, imhdc, dims=dims, vinit=vinit, dvindx=dvindx, 
   endelse
 
   ;; Slicing data cube and velocity array
-  data = imdata[*, *, vindx:(vindx + (nchannel - 1) * dvindx):dvindx]
-  velo = velo[vindx:(vindx + (nchannel - 1) * dvindx):dvindx]
+  data = imdata[*, *, vindx : (vindx + (nchannel - 1) * dvindx) : dvindx]
+  velo = velo[vindx : (vindx + (nchannel - 1) * dvindx) : dvindx]
 
   ;; Contour levels
   if ~keyword_set(levels) then levels = [23, 27, 31, 35, 39, 43]
@@ -64,7 +64,7 @@ pro chmap, imdata, imhd, imdatac, imhdc, dims=dims, vinit=vinit, dvindx=dvindx, 
 
   ;; Some parameters of imcontour
   if ~keyword_set(xdelta) then xdelta = 3
-  if ~keyword_set(ydelta) then ydelta = 1
+  if ~keyword_set(ydelta) then ydelta = 2
   if ~keyword_set(xtitle) then xtitle = 'RA (J2000)'
   if ~keyword_set(ytitle) then ytitle = 'Dec (J2000)'
 
