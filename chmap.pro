@@ -13,7 +13,7 @@ pro chmap, imdata, imhd, imdatac, imhdc, dims=dims, vinit=vinit, dvindx=dvindx, 
 
   if n_params() lt 4 then begin
      print, 'Syntax - chmap, imdata, imhd, imdatac, imhdc, [dims=dims,'
-     print, '         vinit=vinit, dvindx=dvindx,levels=levels, xgap=xgap,'
+     print, '         vinit=vinit, dvindx=dvindx, levels=levels, xgap=xgap,'
      print, '         ygap=ygap, pos=pos, cbpos=cbpos, charsize=charsize,'
      print, '         drange=drange, xdelta=xdelta, ydelta=ydelta,'
      print, '         xtitle=xtitle, ytitle=ytitle, nocont=nocont]'
