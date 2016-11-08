@@ -1,7 +1,8 @@
-pro chmap, imdata, imhd, imdatac, imhdc, dims=dims, vinit=vinit, dvindx=dvindx, $
-           levels=levels, xgap=xgap, ygap=ygap, pos=pos, cbpos=cbpos, $
-           charsize=charsize, drange=drange, xdelta=xdelta, ydelta=ydelta, $
-           xtitle=xtitle, ytitle=ytitle, nocont=nocont, noerase=noerase
+pro chmap, imdata, imhd, imdatac, imhdc, dims=dims, vinit=vinit, $
+           dvindx=dvindx, levels=levels, xgap=xgap, ygap=ygap, pos=pos, $
+           cbpos=cbpos, charsize=charsize, drange=drange, xdelta=xdelta, $
+           ydelta=ydelta, xtitle=xtitle, ytitle=ytitle, nocont=nocont, $
+           noerase=noerase
 
   ;; Plot radio channel maps
 
