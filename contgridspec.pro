@@ -3,6 +3,7 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
                   outfile=outfile, nlevels=nlevels, levgap=levgap, $
                   levbot=levbot, contpos=contpos, cbpos=cbpos, cbname=cbname, $
                   legloc=legloc, markline=markline, ticklen=ticklen, $
+                  xtitle=xtitle, ytitle=ytitle, xydelta=xydelta, $
                   specnames=specnames, speccolors=speccolors, $
                   specxytitle=specxytitle, workdir=workdir, pixgap=pixgap, $
                   thickscale=thickscale, charscale=charscale, cbtail=cbtail, $
@@ -26,7 +27,8 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
      print, '          outfile=outfile, nlevels=nlevels, levgap=levgap,'
      print, '          levbot=levbot, contpos=contpos, cbpos=cbpos,'
      print, '          cbname=cbname, legloc=legloc, markline=markline,'
-     print, '          ticklen=ticklen,specnames=specnames,'
+     print, '          ticklen=ticklen, xtitle=xtitle, ytitle=ytitle,'
+     print, '          xydelta=xydelta, specnames=specnames, xydelta=xydelta,'
      print, '          speccolors=speccolors, specxytitle=specxytitle,'
      print, '          workdir=workdir, pixgap=pixgap, thickscale=thickscale,'
      print, '          charscale=charscale, ctail=cbtail, colorbar=colorbar,'
@@ -90,7 +92,7 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
 
   ;; Contour position
   if ~keyword_set(contpos) then begin
-     contpos = [0.12, 0.14, 0.81, 0.94]
+     contpos = [0.15, 0.11, 0.81, 0.94]
   endif
 
   ;; Legend location
@@ -193,13 +195,19 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
   cgloadct, 8, ncolors=nlevels+cbtail, bottom=1, /reverse
   c_colors = indgen(nlevels) + cbtail + 1
 
-  imcontour, imdatab1, imhdb1, levels=levels, label=0, $
+  if ~keyword_set(xydelta) then xydelta = [2, 1]
+  if ~keyword_set(xtitle) then xtitle = 'RA (J2000)'
+  if ~keyword_set(ytitle) then ytitle = 'Dec (J2000)'
+
+  imcontour, imdatab1, imhdb1, levels=levels, label=0, type=1, $
              xticklen=ticklen, yticklen=ticklen, position=contpos, $
              c_colors=c_colors, c_thick=2.5*thickscale, xstyle=1, ystyle=1, $
              xthick=2.5*thickscale, ythick=2.5*thickscale, $
-             charthick=2.5*thickscale, xmid=(xb[1]-xb[0])/2, $
-             ymid=(yb[1]-yb[0])/2, nodata=nocont, $
-             charsize=1.3 * charscale, window=window, noerase=noerase
+             charthick=2.5*thickscale, subtitle=' ', xtitle=xtitle, $
+             ytitle=ytitle, xdelta=xydelta[0], ydelta=xydelta[1], $
+             ;; xmid=(xb[1]-xb[0])/2, ymid=(yb[1]-yb[0])/2,$
+             nodata=nocont, charsize=1.3 * charscale, $
+             window=window, noerase=noerase
 
   ;; Plot colorbar
   if keyword_set(colorbar) then begin
