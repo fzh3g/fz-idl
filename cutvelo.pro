@@ -46,8 +46,13 @@ pro cutvelo, oldim, oldhd, newim, newhd, velo1, velo2
   crval3 = sxpar(newhd, 'CRVAL3')
   crpix3 = sxpar(newhd, 'CRPIX3')
   cdelt3 = sxpar(newhd, 'CDELT3')
+  cunit3 = sxpar(newhd, 'CUNIT3')
 
-  veloslices = ([velo1, velo2] * 1000d - crval3) / cdelt3 + crpix3 - 1
+  if (strtrim(cunit3, 2) eq 'km/s') then begin
+     veloslices = ([velo1, velo2] - crval3) / cdelt3 + crpix3 - 1
+  endif else begin
+     veloslices = ([velo1, velo2] * 1000d - crval3) / cdelt3 + crpix3 - 1
+  endelse
   veloslices = veloslices[sort(veloslices)]
   veloslices = [floor(veloslices[0]), ceil(veloslices[1])]
 
@@ -60,11 +65,15 @@ pro cutvelo, oldim, oldhd, newim, newhd, velo1, velo2
   newim = newim[*, *, veloslices[0]:veloslices[1]]
   sxaddpar, newhd, 'NAXIS3', veloslices[1] - veloslices[0] + 1
   sxaddpar, newhd, 'CRPIX3', crpix3 - veloslices[0]
-  message, /inf, 'Cut velocity from ' + strtrim(velo1, 2) + ' km/s to ' + $
-           strtrim(velo2, 2) + ' km/s.'
+
+  newvelo = getvelo(newhd)
+  if (strtrim(cunit3, 2) eq 'km/s') then newvelo = newvelo * 1000d
+
+  message, /inf, 'Cut velocity from ' + strtrim(min(newvelo), 2) + ' km/s to ' $
+           + strtrim(max(newvelo), 2) + ' km/s.'
   sxaddhist, 'CUTVELO: ' + systime() + ' Velocity clipped from ' + $
-             strtrim(velo1, 2) + ' km/s to ' + strtrim(velo2, 2) + $
-             ' km/s', newhd
+             strtrim(min(newvelo), 2) + ' km/s to ' + strtrim(max(newvelo), 2) $
+             + ' km/s', newhd
 
   if update then begin
      oldim = temporary(newim) & oldhd = temporary(newhd)
