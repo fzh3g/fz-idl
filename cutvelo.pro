@@ -69,11 +69,9 @@ pro cutvelo, oldim, oldhd, newim, newhd, velo1, velo2
   newvelo = getvelo(newhd)
   if (strtrim(cunit3, 2) eq 'km/s') then newvelo = newvelo * 1000d
 
-  message, /inf, 'Cut velocity from ' + strtrim(min(newvelo), 2) + ' km/s to ' $
-           + strtrim(max(newvelo), 2) + ' km/s.'
-  sxaddhist, 'CUTVELO: ' + systime() + ' Velocity clipped from ' + $
-             strtrim(min(newvelo), 2) + ' km/s to ' + strtrim(max(newvelo), 2) $
-             + ' km/s', newhd
+  message, /inf, 'Cut velocity from ' + strtrim(velo1) + ' km/s to ' $
+           + strtrim(velo2) + ' km/s.'
+  sxaddhist, 'CUTVELO: ' + systime() + ' Velocity clipped!', newhd
 
   if update then begin
      oldim = temporary(newim) & oldhd = temporary(newhd)
