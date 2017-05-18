@@ -104,8 +104,8 @@ pro gridspec, imdata, imhd, ra1, ra2, dec1, dec2, vrange=vrange, $
         cgplot, velocity, imdata1[i, j, *], xrange=vrange, yrange=yrange, $
                 xstyle=xstyle, ystyle=ystyle, xticks=2, yticks=2, xminor=5, $
                 yminor=5, ticklen=0.05, xtickformat="(A1)", color=color, $
-                ytickformat="(A1)", position=pos, /noerase, addcmd=cgwin, $
-                _extra=extra
+                ytickformat="(A1)", position=pos, psym=10, /noerase, $
+                addcmd=cgwin, _extra=extra
 
         if keyword_set(markline) then begin
            cgoplot, [markline, markline], yrange, linestyle=1, $
