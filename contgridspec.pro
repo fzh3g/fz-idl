@@ -7,9 +7,9 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
                   specnames=specnames, speccolors=speccolors, $
                   specxytitle=specxytitle, workdir=workdir, pixgap=pixgap, $
                   thickscale=thickscale, charscale=charscale, cbtail=cbtail, $
-                  colorbar=colorbar, legend=legend, nocont=nocont, nops=nops, $
-                  nogrid=nogrid, window=window, noerase=noerase, $
-                  get_gridpos=gridpos
+                  cbformat=cbformat, colortable=colortable, colorbar=colorbar, $
+                  legend=legend, nocont=nocont, nops=nops, nogrid=nogrid, $
+                  window=window, noerase=noerase, get_gridpos=gridpos
 
   ;; Overplot a grid of spectra of data cubes on top of a contour of
   ;; background image
@@ -31,8 +31,9 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
      print, '          xydelta=xydelta, specnames=specnames, xydelta=xydelta,'
      print, '          speccolors=speccolors, specxytitle=specxytitle,'
      print, '          workdir=workdir, pixgap=pixgap, thickscale=thickscale,'
-     print, '          charscale=charscale, ctail=cbtail, colorbar=colorbar,'
-     print, '          legend=legend, nocont=nocont, nops=nops, nogrid=nogrid,'
+     print, '          charscale=charscale, cbtail=cbtail, cbformat=cbformat, '
+     print, '          colorbar=colorbar, colortable=colortable, legend=legend,'
+     print, '          nocont=nocont, nops=nops, nogrid=nogrid,'
      print, '          get_gridpos=gridpos]'
      return
   endif
@@ -92,7 +93,7 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
 
   ;; Contour position
   if ~keyword_set(contpos) then begin
-     contpos = [0.15, 0.11, 0.81, 0.94]
+     contpos = [0.12, 0.10, 0.84, 0.96]
   endif
 
   ;; Legend location
@@ -103,10 +104,10 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
 
   ;; Colorbar position
   if ~keyword_set(cbpos) then begin
-     cbpos = [(contpos[2] - contpos[0]) * 0.12 + contpos[2], $
-              (contpos[3] - contpos[1]) * 0.20 + contpos[1], $
-              (contpos[2] - contpos[0]) * 0.17 + contpos[2], $
-              (contpos[3] - contpos[1]) * 0.80 + contpos[1]]
+     cbpos = [(contpos[2] - contpos[0]) * 0.10 + contpos[2], $
+              (contpos[3] - contpos[1]) * 0.15 + contpos[1], $
+              (contpos[2] - contpos[0]) * 0.14 + contpos[2], $
+              (contpos[3] - contpos[1]) * 0.88 + contpos[1]]
   endif
 
   ;; Colorbar name
@@ -192,12 +193,13 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
 
   ;; Plot contour
   message, /inf, 'Plotting contour ...'
-  cgloadct, 8, ncolors=nlevels+cbtail, bottom=1, /reverse
+  if ~keyword_set(colortable) then colortable = 0
+  cgloadct, colortable, ncolors=nlevels+cbtail, bottom=1, /reverse
   c_colors = indgen(nlevels) + cbtail + 1
 
   if ~keyword_set(xydelta) then xydelta = [2, 1]
-  if ~keyword_set(xtitle) then xtitle = 'RA (J2000)'
-  if ~keyword_set(ytitle) then ytitle = 'Dec (J2000)'
+  if ~keyword_set(xtitle) then xtitle = 'Right Ascension (J2000)'
+  if ~keyword_set(ytitle) then ytitle = 'Declination (J2000)'
 
   imcontour, imdatab1, imhdb1, levels=levels, label=0, type=1, $
              xticklen=ticklen, yticklen=ticklen, position=contpos, $
@@ -206,17 +208,18 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
              charthick=2.5*thickscale, subtitle=' ', xtitle=xtitle, $
              ytitle=ytitle, xdelta=xydelta[0], ydelta=xydelta[1], $
              ;; xmid=(xb[1]-xb[0])/2, ymid=(yb[1]-yb[0])/2,$
-             nodata=nocont, charsize=1.3 * charscale, $
+             nodata=nocont, charsize=1.0 * charscale, $
              window=window, noerase=noerase
 
   ;; Plot colorbar
+  if ~keyword_set(cbformat) then cbformat = '(I0)'
   if keyword_set(colorbar) then begin
      message, /inf, 'Plotting colorbar ...'
-     cgloadct, 8, /reverse
-     cgcolorbar, divisions=nlevels-1, minor=0, format='(I0)', $
+     cgloadct, colortable, /reverse
+     cgcolorbar, divisions=nlevels-1, minor=0, format=cbformat, $
                  range=[min(levels), max(levels)], /vertical, $
                  bottom=256/(nlevels+cbtail-1)*cbtail, $
-                 charsize=1.2*charscale, textthick=2.0*thickscale, $
+                 charsize=0.9*charscale, textthick=2.0*thickscale, $
                  annotatecolor='black', title=cbname, position=cbpos, $
                  tlocation='right', addcmd=window
   endif
@@ -228,7 +231,7 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
                m_color=cgcolor("blk6"), m_thick=1.5*thickscale, $
                l_color=cgcolor('brown'), yrange=yrange, position=gridpos, $
                thick=1.5*thickscale, xthick=thickscale, ythick=thickscale, $
-               charsize=0.8 * charscale, gridsize=gridsize, addcmd=window, $
+               charsize=0.6 * charscale, gridsize=gridsize, addcmd=window, $
                xtitle=specxytitle[0], ytitle=specxytitle[1]
 
      if (ncube gt 1) then begin
@@ -246,7 +249,7 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
      if keyword_set(legend) then begin
         message, /inf, 'Plotting legends ...'
         cglegend, title=specnames, color=speccolors, location=legloc, $
-                  thick=2.0*thickscale, charsize=0.8 * charscale, $
+                  thick=2.0*thickscale, charsize=0.6 * charscale, $
                   length=0.02, addcmd=window
      endif
   endif
