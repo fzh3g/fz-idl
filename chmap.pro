@@ -22,10 +22,10 @@ pro chmap, imdata, imhd, imdatac, imhdc, dims=dims, vinit=vinit, $
   endif
 
   ;; Column number and line number of channel maps
-  if ~keyword_set(dims) then dims = [4, 3]
+  if ~keyword_set(dims) then dims = [3, 4]
 
   ;; Number of channels
-  nchannel = fix(dims[0]) * fix(dims[1])
+  nchannel = fix(dims[1]) * fix(dims[0])
 
   ;; Spacing of velocity indecis
   if ~keyword_set(dvindx) then dvindx = 1
@@ -49,19 +49,19 @@ pro chmap, imdata, imhd, imdatac, imhdc, dims=dims, vinit=vinit, $
   if ~keyword_set(levels) then levels = [23, 27, 31, 35, 39, 43]
 
   ;; Position
-  if ~keyword_set(pos) then pos = [0.12, 0.10, 0.88, 0.95]
+  if ~keyword_set(pos) then pos = [0.10, 0.09, 0.88, 0.95]
 
   ;; Colorbar position
-  if ~keyword_set(cbpos) then cbpos = [0.92, 0.2, 0.95, 0.85]
+  if ~keyword_set(cbpos) then cbpos = [0.91, 0.2, 0.94, 0.85]
 
   ;; Charsize of axis labels
-  if ~keyword_set(charsize) then charsize = 1
+  if ~keyword_set(charsize) then charsize = 0.8
 
   ;; Gaps between subplots in X direction
-  if ~keyword_set(xgap) then xgap = 0.03
+  if ~keyword_set(xgap) then xgap = 0.02
 
   ;; Gaps between subplots in Y direction
-  if ~keyword_set(ygap) then ygap = 0.03
+  if ~keyword_set(ygap) then ygap = 0.04
 
   ;; Some parameters of imcontour
   if ~keyword_set(xdelta) then xdelta = 3
@@ -87,8 +87,8 @@ pro chmap, imdata, imhd, imdatac, imhdc, dims=dims, vinit=vinit, $
   data = bytscl(data)
 
   ;; Normalized size of subplots
-  dpx = (pos[2] - pos[0] - (dims[0] - 1) * xgap) / dims[0]
-  dpy = (pos[3] - pos[1] - (dims[1] - 1) * ygap) / dims[1]
+  dpx = (pos[2] - pos[0] - (dims[1] - 1) * xgap) / dims[1]
+  dpy = (pos[3] - pos[1] - (dims[0] - 1) * ygap) / dims[0]
 
   ;; Load color table
   cgloadct, 3, /reverse
@@ -97,19 +97,19 @@ pro chmap, imdata, imhd, imdatac, imhdc, dims=dims, vinit=vinit, $
   position = fltarr(4)
 
   ;; Plot
-  for i = 0, dims[1] - 1 do begin    ;i for line
-     for j = 0, dims[0] - 1 do begin ;j for column
+  for i = 0, dims[0] - 1 do begin    ;i for line
+     for j = 0, dims[1] - 1 do begin ;j for column
         position[0] = pos[0] + (dpx + xgap) * j
-        position[1] = pos[1] + (dpy + ygap) * (dims[1] - i - 1)
+        position[1] = pos[1] + (dpy + ygap) * (dims[0] - i - 1)
         position[2] = position[0] + dpx
         position[3] = position[1] + dpy
 
         ;; Current velocity
-        velocity = velo[i * dims[0] + j]
+        velocity = velo[i * dims[1] + j]
 
         ;; the first column but not the last line
-        if (i ne dims[1] - 1) && (j eq 0)then begin
-           cgimage, data[*, *, i * dims[0] + j], /keep_aspect_ratio, $
+        if (i ne dims[0] - 1) && (j eq 0)then begin
+           cgimage, data[*, *, i * dims[1] + j], /keep_aspect_ratio, $
                     position=position, /noerase
            imcontour, imdatac, imhdc, levels=levels, position=position, $
                       /type, /noerase, xtickformat="(A1)", subtitle=' ', $
@@ -121,8 +121,8 @@ pro chmap, imdata, imhd, imdatac, imhdc, dims=dims, vinit=vinit, $
                    charsize=1.2 * charsize, /normal
         endif
         ;; the last line but not the first column
-        if (i eq dims[1] - 1) && (j ne 0) then begin
-           cgimage, data[*, *, i * dims[0] + j], /keep_aspect_ratio, $
+        if (i eq dims[0] - 1) && (j ne 0) then begin
+           cgimage, data[*, *, i * dims[1] + j], /keep_aspect_ratio, $
                     position=position, /noerase
            imcontour, imdatac, imhdc, levels=levels, position=position, $
                       /type, /noerase, ytickformat="(A1)", subtitle=' ', $
@@ -134,8 +134,8 @@ pro chmap, imdata, imhd, imdatac, imhdc, dims=dims, vinit=vinit, $
                    charsize=1.2 * charsize, /normal
         endif
         ;; the fist column and the last line
-        if (i eq dims[1] - 1) && (j eq 0) then begin
-           cgimage, data[*, *, i * dims[0] + j], /keep_aspect_ratio, $
+        if (i eq dims[0] - 1) && (j eq 0) then begin
+           cgimage, data[*, *, i * dims[1] + j], /keep_aspect_ratio, $
                     position=position, /noerase
            imcontour, imdatac, imhdc, levels=levels, position=position, $
                       /type, /noerase, charsize=charsize, subtitle=' ', $
@@ -147,8 +147,8 @@ pro chmap, imdata, imhd, imdatac, imhdc, dims=dims, vinit=vinit, $
                    charsize=1.2 * charsize, /normal
         endif
         ;; neither the first column nor the last line
-        if (i ne dims[1] - 1) && (j ne 0) then begin
-           cgimage, data[*, *, i * dims[0] + j], /keep_aspect_ratio, $
+        if (i ne dims[0] - 1) && (j ne 0) then begin
+           cgimage, data[*, *, i * dims[1] + j], /keep_aspect_ratio, $
                     position=position, /noerase
            imcontour, imdatac, imhdc, levels=levels, position=position, $
                       /type, /noerase, xtickformat="(A1)", xtitle='', $
