@@ -116,7 +116,7 @@ pro chmap, imdata, imhd, imdatac, imhdc, dims=dims, vinit=vinit, $
                       xtitle='', xminor=0, yminor=0, label=0, nodata=nocont, $
                       ydelta=ydelta, ytitle=ytitle, charsize=charsize
            cgtext, 0.05 * (position[2] - position[0]) + position[0], $
-                   0.85 * (position[3] - position[1]) + position[1], $
+                   1.05 * (position[3] - position[1]) + position[1], $
                    string(velocity, format='(f0.2)') + 'km/s', $
                    charsize=1.2 * charsize, /normal
         endif
@@ -129,7 +129,7 @@ pro chmap, imdata, imhd, imdatac, imhdc, dims=dims, vinit=vinit, $
                       ytitle='', xdelta=xdelta, xminor=0, yminor=0, $
                       label=0, xtitle=xtitle, charsize=charsize, nodata=nocont
            cgtext, 0.05 * (position[2] - position[0]) + position[0], $
-                   0.85 * (position[3] - position[1]) + position[1], $
+                   1.05 * (position[3] - position[1]) + position[1], $
                    string(velocity, format='(f0.2)') + 'km/s', $
                    charsize=1.2 * charsize, /normal
         endif
@@ -142,7 +142,7 @@ pro chmap, imdata, imhd, imdatac, imhdc, dims=dims, vinit=vinit, $
                       xdelta=xdelta, ydelta=ydelta, xminor=0, yminor=0, $
                       label=0, xtitle=xtitle, ytitle=ytitle, nodata=nocont
            cgtext, 0.05 * (position[2] - position[0]) + position[0], $
-                   0.85 * (position[3] - position[1]) + position[1], $
+                   1.05 * (position[3] - position[1]) + position[1], $
                    string(velocity, format='(f0.2)') + 'km/s', $
                    charsize=1.2 * charsize, /normal
         endif
@@ -155,7 +155,7 @@ pro chmap, imdata, imhd, imdatac, imhdc, dims=dims, vinit=vinit, $
                       ytickformat="(A1)", subtitle=' ', charsize=charsize, $
                       ytitle='', xminor=0, yminor=0, label=0, nodata=nocont
            cgtext, 0.05 * (position[2] - position[0]) + position[0], $
-                   0.85 * (position[3] - position[1]) + position[1], $
+                   1.05 * (position[3] - position[1]) + position[1], $
                    string(velocity, format='(f0.2)') + 'km/s', $
                    charsize=1.2 * charsize, /normal
         endif
