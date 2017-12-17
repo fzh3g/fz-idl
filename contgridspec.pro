@@ -5,11 +5,12 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
                   legloc=legloc, markline=markline, ticklen=ticklen, $
                   xtitle=xtitle, ytitle=ytitle, xydelta=xydelta, $
                   specnames=specnames, speccolors=speccolors, $
-                  specxytitle=specxytitle, workdir=workdir, pixgap=pixgap, $
-                  thickscale=thickscale, charscale=charscale, cbtail=cbtail, $
-                  cbformat=cbformat, colortable=colortable, colorbar=colorbar, $
-                  legend=legend, nocont=nocont, nops=nops, nogrid=nogrid, $
-                  window=window, noerase=noerase, get_gridpos=gridpos
+                  specscales=specscales, specxytitle=specxytitle, $
+                  workdir=workdir, pixgap=pixgap, thickscale=thickscale, $
+                  charscale=charscale, cbtail=cbtail, cbformat=cbformat, $
+                  colortable=colortable, colorbar=colorbar, legend=legend, $
+                  nocont=nocont, nops=nops, nogrid=nogrid, window=window, $
+                  noerase=noerase, get_gridpos=gridpos
 
   ;; Overplot a grid of spectra of data cubes on top of a contour of
   ;; background image
@@ -29,11 +30,11 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
      print, '          cbname=cbname, legloc=legloc, markline=markline,'
      print, '          ticklen=ticklen, xtitle=xtitle, ytitle=ytitle,'
      print, '          xydelta=xydelta, specnames=specnames, xydelta=xydelta,'
-     print, '          speccolors=speccolors, specxytitle=specxytitle,'
-     print, '          workdir=workdir, pixgap=pixgap, thickscale=thickscale,'
-     print, '          charscale=charscale, cbtail=cbtail, cbformat=cbformat, '
-     print, '          colorbar=colorbar, colortable=colortable, legend=legend,'
-     print, '          nocont=nocont, nops=nops, nogrid=nogrid,'
+     print, '          speccolors=speccolors, specscales=specscales,'
+     print, '          specxytitle=specxytitle, workdir=workdir, pixgap=pixgap,'
+     print, '          thickscale=thickscale,charscale=charscale, cbtail=cbtail,'
+     print, '          cbformat=cbformat, colorbar=colorbar, colortable=colortable,'
+     print, '          legend=legend, nocont=nocont, nops=nops, nogrid=nogrid,'
      print, '          get_gridpos=gridpos]'
      return
   endif
@@ -52,9 +53,15 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
      return
   endif
 
+  ;; Scales of spectra
+  if ~keyword_set(specscales) then begin
+     specscales = make_array(ncube, /double, value=1)
+  endif
+
   ;; Read fits file
   message, /inf,  'Read data cube file: ' + cubes[0]
   fits_read, cubes[0], imdata, imhd
+  imdata = imdata * specscales[0]
 
   message, /inf,  'Read background file: ' + bkg
   fits_read, bkg, imdatab, imhdb
@@ -240,6 +247,7 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
         for i =1, ncube - 1 do begin
            message, /inf,  'Read data cube file: ' + cubes[i]
            fits_read, cubes[i], imdata, imhd
+           imdata = imdata * specscales[i]
            gridspec, imdata, imhd, ra1, ra2, dec1, dec2, vrange=vrange, $
                      color=speccolors[i], yrange=yrange, $
                      thick=1.5*thickscale, /noaxis, position=gridpos, $
