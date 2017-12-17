@@ -101,9 +101,9 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
   ;; Contour position
   if ~keyword_set(contpos) then begin
      if ~keyword_set(colorbar) || ~keyword_set(legend) then begin
-        contpos = [0.13, 0.10, 0.96, 0.96]
+        contpos = [0.13, 0.08, 0.97, 0.98]
      endif else begin
-        contpos = [0.13, 0.10, 0.84, 0.96]
+        contpos = [0.13, 0.08, 0.84, 0.98]
         ;; Legend location
         if ~keyword_set(legloc) then begin
            legloc = [(contpos[2] - contpos[0]) * 0.025 + contpos[2], $
