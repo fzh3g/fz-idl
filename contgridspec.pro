@@ -93,21 +93,23 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
 
   ;; Contour position
   if ~keyword_set(contpos) then begin
-     contpos = [0.12, 0.10, 0.84, 0.96]
-  endif
-
-  ;; Legend location
-  if ~keyword_set(legloc) then begin
-     legloc = [(contpos[2] - contpos[0]) * 0.025 + contpos[2], $
-               (contpos[3] - contpos[1]) * 0.03 * ncube + contpos[1]]
-  endif
-
-  ;; Colorbar position
-  if ~keyword_set(cbpos) then begin
-     cbpos = [(contpos[2] - contpos[0]) * 0.10 + contpos[2], $
-              (contpos[3] - contpos[1]) * 0.15 + contpos[1], $
-              (contpos[2] - contpos[0]) * 0.14 + contpos[2], $
-              (contpos[3] - contpos[1]) * 0.88 + contpos[1]]
+     if ~keyword_set(colorbar) || ~keyword_set(legend) then begin
+        contpos = [0.13, 0.10, 0.96, 0.96]
+     endif else begin
+        contpos = [0.13, 0.10, 0.84, 0.96]
+        ;; Legend location
+        if ~keyword_set(legloc) then begin
+           legloc = [(contpos[2] - contpos[0]) * 0.025 + contpos[2], $
+                     (contpos[3] - contpos[1]) * 0.03 * ncube + contpos[1]]
+        endif
+        ;; Colorbar position
+        if ~keyword_set(cbpos) then begin
+           cbpos = [(contpos[2] - contpos[0]) * 0.10 + contpos[2], $
+                    (contpos[3] - contpos[1]) * 0.15 + contpos[1], $
+                    (contpos[2] - contpos[0]) * 0.14 + contpos[2], $
+                    (contpos[3] - contpos[1]) * 0.88 + contpos[1]]
+        endif
+     endelse
   endif
 
   ;; Colorbar name
