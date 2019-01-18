@@ -49,19 +49,19 @@ pro chmap, imdata, imhd, imdatac, imhdc, dims=dims, vinit=vinit, $
   if ~keyword_set(levels) then levels = [23, 27, 31, 35, 39, 43]
 
   ;; Position
-  if ~keyword_set(pos) then pos = [0.12, 0.10, 0.88, 0.95]
+  if ~keyword_set(pos) then pos = [0.10, 0.09, 0.88, 0.95]
 
   ;; Colorbar position
-  if ~keyword_set(cbpos) then cbpos = [0.92, 0.2, 0.95, 0.85]
+  if ~keyword_set(cbpos) then cbpos = [0.91, 0.2, 0.94, 0.85]
 
   ;; Charsize of axis labels
-  if ~keyword_set(charsize) then charsize = 1
+  if ~keyword_set(charsize) then charsize = 0.8
 
   ;; Gaps between subplots in X direction
-  if ~keyword_set(xgap) then xgap = 0.03
+  if ~keyword_set(xgap) then xgap = 0.02
 
   ;; Gaps between subplots in Y direction
-  if ~keyword_set(ygap) then ygap = 0.03
+  if ~keyword_set(ygap) then ygap = 0.04
 
   ;; Some parameters of imcontour
   if ~keyword_set(xdelta) then xdelta = 3
