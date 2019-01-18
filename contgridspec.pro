@@ -1,10 +1,10 @@
 pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
                   vrange=vrange, yrange=yrange, gridsize=gridsize, $
-                  outfile=outfile, nlevels=nlevels, levgap=levgap, $
-                  levbot=levbot, contpos=contpos, cbpos=cbpos, cbname=cbname, $
-                  legloc=legloc, markline=markline, ticklen=ticklen, $
-                  xtitle=xtitle, ytitle=ytitle, xydelta=xydelta, $
-                  specnames=specnames, speccolors=speccolors, $
+                  outfile=outfile, linescales=linescales, nlevels=nlevels, $
+                  levgap=levgap, levbot=levbot, contpos=contpos, cbpos=cbpos, $
+                  cbname=cbname, legloc=legloc, markline=markline, $
+                  ticklen=ticklen, xtitle=xtitle, ytitle=ytitle, $
+                  xydelta=xydelta, specnames=specnames, speccolors=speccolors, $
                   specxytitle=specxytitle, workdir=workdir, pixgap=pixgap, $
                   thickscale=thickscale, charscale=charscale, cbtail=cbtail, $
                   cbformat=cbformat, colortable=colortable, colorbar=colorbar, $
@@ -24,17 +24,17 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
   if (n_params() lt 6) then begin
      print, 'Syntax - contgridspec, cubes, bkg, racen, deccen, rasize, decsize,'
      print, '         [vrange=vrange, yrange=yrange, gridsize=gridsize,'
-     print, '          outfile=outfile, nlevels=nlevels, levgap=levgap,'
-     print, '          levbot=levbot, contpos=contpos, cbpos=cbpos,'
-     print, '          cbname=cbname, legloc=legloc, markline=markline,'
-     print, '          ticklen=ticklen, xtitle=xtitle, ytitle=ytitle,'
-     print, '          xydelta=xydelta, specnames=specnames, xydelta=xydelta,'
-     print, '          speccolors=speccolors, specxytitle=specxytitle,'
-     print, '          workdir=workdir, pixgap=pixgap, thickscale=thickscale,'
-     print, '          charscale=charscale, cbtail=cbtail, cbformat=cbformat, '
-     print, '          colorbar=colorbar, colortable=colortable, legend=legend,'
-     print, '          nocont=nocont, nops=nops, nogrid=nogrid,'
-     print, '          get_gridpos=gridpos]'
+     print, '          outfile=outfile, linescales=linescales, nlevels=nlevels,'
+     print, '          levgap=levgap, levbot=levbot, contpos=contpos,'
+     print, '          cbpos=cbpos, cbname=cbname, legloc=legloc,'
+     print, '          markline=markline, ticklen=ticklen, xtitle=xtitle,'
+     print, '          ytitle=ytitle, xydelta=xydelta, specnames=specnames,'
+     print, '          xydelta=xydelta, speccolors=speccolors,'
+     print, '          specxytitle=specxytitle, workdir=workdir, pixgap=pixgap,'
+     print, '          thickscale=thickscale, charscale=charscale,'
+     print, '          cbtail=cbtail, cbformat=cbformat, colorbar=colorbar,'
+     print, '          colortable=colortable, legend=legend, nocont=nocont,'
+     print, '          nops=nops, nogrid=nogrid, get_gridpos=gridpos]'
      return
   endif
 
@@ -49,6 +49,16 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
 
   if (ncube gt 5) then begin
      message, 'ERROR - length of CUBEFILES must be less than 6', /con
+     return
+  endif
+
+  ;; Scales of the spectrum of cubes
+  if ~keyword_set(linescales) then begin
+     linescales = make_array(ncube, 1.0)
+  endif
+
+  if (ncube eq 1) then begin
+     message, 'ERROR - length of LINESCALES must be larger than 1', /con
      return
   endif
 
@@ -238,8 +248,8 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
         for i =1, ncube - 1 do begin
            message, /inf,  'Read data cube file: ' + cubes[i]
            fits_read, cubes[i], imdata, imhd
-           gridspec, imdata, imhd, ra1, ra2, dec1, dec2, vrange=vrange, $
-                     color=speccolors[i], yrange=yrange, $
+           gridspec, imdata * linescales[i], imhd, ra1, ra2, dec1, dec2, $
+                     vrange=vrange, color=speccolors[i], yrange=yrange, $
                      thick=1.5*thickscale, /noaxis, position=gridpos, $
                      gridsize=gridsize, addcmd=window
         endfor
