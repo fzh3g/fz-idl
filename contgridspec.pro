@@ -54,7 +54,7 @@ pro contgridspec, cubes, bkg, racen, deccen, rasize, decsize, $
 
   ;; Scales of the spectrum of cubes
   if ~keyword_set(linescales) then begin
-     linescales = make_array(ncube, 1.0)
+     linescales = make_array(ncube, 1, value=1.0)
   endif
 
   if (ncube eq 1) then begin
